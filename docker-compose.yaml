@@ -1,0 +1,21 @@
+services:
+  # Server
+  server:
+    image: fmahdi09/ci_server:dev
+    depends_on:
+      - "db"
+    container_name: server
+    ports:
+      - "3000:3000"
+  # Database
+  db:
+    image: postgres:15.2-alpine
+    volumes:
+      - postgres_share_image_app:/var/lib/postgresql/data
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: root
+
+volumes:
+  postgres_share_image_app:
