@@ -29,6 +29,11 @@ jobs:
           docker build -t $DOCKER_USERNAME/ci_server:dev .
           echo $DOCKER_TOKEN | docker login -u $DOCKER_USERNAME --password-stdin
           docker push $DOCKER_USERNAME/ci_server:dev
+  deploy:
+    docker:
+      - image: cimg/base:2022.06
+    steps:
+      - echo "deploying . . ."
 workflows:
   build-and-test:
     jobs:
@@ -39,6 +44,6 @@ workflows:
       - build-docker:
           requires:
             - build-node
-    # - deploy:
-    #     requires:
-    #       - build-node
+     - deploy:
+         requires:
+           - build-docker
