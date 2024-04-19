@@ -19,13 +19,14 @@ jobs:
       - run:
           command: npm run build
   build-docker:
-    - image: cimg/base:2022.06
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run: 
-          command: docker build -t testing .
+    docker:
+      - image: cimg/base:2022.06
+      steps:
+        - checkout
+        - setup_remote_docker:
+            docker_layer_caching: true
+        - run: 
+            command: docker build -t testing .
 workflows:
   build-and-test:
     jobs:
