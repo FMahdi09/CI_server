@@ -26,7 +26,7 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run: 
-          command: docker build -t testing .
+          command: docker build -t ${ DOCKER_USERNAME }/ci_server:dev .
 workflows:
   build-and-test:
     jobs:
