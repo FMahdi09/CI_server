@@ -33,7 +33,8 @@ jobs:
     docker:
       - image: cimg/base:2022.06
     steps:
-      - echo "deploying . . ."
+      - run:
+          command: echo "deploying . . ."
 workflows:
   build-and-test:
     jobs:
@@ -45,5 +46,5 @@ workflows:
           requires:
             - build-node
       - deploy:
-         requires:
-           - build-docker
+          requires:
+            - build-docker
