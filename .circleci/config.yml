@@ -27,6 +27,8 @@ jobs:
           docker_layer_caching: true
       - run: 
           docker build -t $DOCKER_USERNAME/ci_server:dev .
+          echo $DOCKER_TOKEN | docker login -u $DOCKER_USERNAME --password-stdin
+          docker push $DOCKER_USERNAME/ci_server:dev
 workflows:
   build-and-test:
     jobs:
