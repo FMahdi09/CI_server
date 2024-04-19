@@ -44,6 +44,6 @@ workflows:
       - build-docker:
           requires:
             - build-node
-     - deploy:
+      - deploy:
          requires:
            - build-docker
