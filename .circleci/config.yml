@@ -18,25 +18,14 @@ jobs:
           pkg-manager: npm
       - run:
           command: npm run build
-      - run:
-          name: Create the ~/artifacts directory if it doesn't exist
-          command: mkdir -p ~/artifacts
-      # Copy output to artifacts dir
-      - run:
-          name: Copy artifacts
-          command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
-      - store_artifacts:
-          path: ~/artifacts
-          destination: node-build
-  deploy:
-    # This is an example deploy job, not actually used by the workflow
-    docker:
-      - image: cimg/base:stable
+  build-docker:
+    executor: cimg/base:2022.06
     steps:
-      # Replace this with steps to deploy to users
-      - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: 
+          command: docker build -t testing .
 workflows:
   build-and-test:
     jobs:
@@ -44,6 +33,9 @@ workflows:
       - build-node:
           requires:
             - test-node
+      - build-docker:
+          requires:
+            - build-node
     # - deploy:
     #     requires:
     #       - build-node
